@@ -4,9 +4,19 @@
 
 ### 2. Liste des films (3pt)
 
+model ok
+
 http://localhost:9000/api/movies
 
 Pagination: http://localhost:9000/api/movies/2/10 avec comme params dans l'ordre page et limit
+
+### 3. Authentification (3pt)
+
+model ok (password en clair)
+
+username unique && status ok
+
+return token ok
 
 
 

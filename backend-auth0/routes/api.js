@@ -11,13 +11,14 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 const passport = require('passport');
+const { User } = require('./auth.js');
 
 /**
  * authenticationRequired is a middleware that use the jwt strategy to authenticate
  * the use. If authentication fails, passport will respond with a 401 Unauthorized status.
  * If authentication succeeds, the `req.user` property will be set to the authenticated user.
  */
-// const authenticationRequired = passport.authenticate('jwt', { session: false });
+const authenticationRequired = passport.authenticate('jwt', { session: false });
 
 /**
  * authentication middleware overrides the default behavior of passport. The next handler is
@@ -33,27 +34,8 @@ const authentication = (req, res, next) => {
   })(req, res, next);
 };
 
-/*
-// This endpoint is accessible by authenticated and anonymous users
-router.get('/public', authentication, (req, res) => {
-  const username = req.user ? req.user.username : 'anonymous';
-  res.send({ message: `Hello ${username}, this message is public!` });
-});
-
-// This endpoint is protected and has access to the authenticated user.
-router.get('/private', authenticationRequired, (req, res) => {
-  res.send({ message: `Hello ${req.user.username}, only logged in users can see this message!` });
-});
-
-// This endpoint is protected and has access to the authenticated user.
-router.get('/me', authenticationRequired, (req, res) => {
-  res.send({ user: req.user });
-});
-*/
-
-// schema declaration
+// movie schema declaration
 const { Schema } = mongoose;
-
 const MovieSchema = new Schema({
   _id: {
     $oid: {
@@ -116,6 +98,7 @@ const MovieSchema = new Schema({
 MovieSchema.plugin(mongoosePaginate);
 const Movie = mongoose.model('Movie', MovieSchema);
 
+// get all movies
 router.get('/movies', authentication, (req, res) => {
   Movie.find((err, movies) => {
     if (err) return console.log(err);
@@ -125,10 +108,17 @@ router.get('/movies', authentication, (req, res) => {
 });
 
 // get all movies with pagination
-router.get('/movies/:page/:limit', authentication, (req, res) => {
+router.get('/movies/:page/:limit', authenticationRequired, (req, res) => {
   const { page, limit } = req.params;
   Movie.paginate({}, { page: parseInt(page, 10), limit: parseInt(limit, 10) }).then(response => {
     res.send(response);
+  });
+});
+
+// get the watchlist from a user
+router.get('/:id/watchlist', authenticationRequired, (req, res) => {
+  User.findOne({ _id: req.params.id }, (err, user) => {
+    res.send(user.watchlist);
   });
 });
 

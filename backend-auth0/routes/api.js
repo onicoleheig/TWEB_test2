@@ -1,7 +1,5 @@
-/* eslint-disable no-console */
 /**
   * @desc second test during TWEB 2018 api file
-  *       this file allows console.log
   * @author Olivier Nicole
 */
 
@@ -101,7 +99,7 @@ const Movie = mongoose.model('Movie', MovieSchema);
 // get all movies
 router.get('/movies', authentication, (req, res) => {
   Movie.find((err, movies) => {
-    if (err) return console.log(err);
+    if (err) return err;
     res.send(movies);
     return true;
   });

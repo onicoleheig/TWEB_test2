@@ -1,4 +1,8 @@
-/* eslint-disable no-console */
+/**
+  * @desc second test during TWEB 2018 auth file
+  * @author Olivier Nicole
+*/
+
 const express = require('express');
 const passport = require('passport');
 const passportLocal = require('passport-local');
@@ -76,7 +80,6 @@ router.post('/register', (req, res) => {
     User.findOne({ username }, (err, user) => {
       // manage request error
       if (err) {
-        console.log(err);
         res.send({ message: err });
         return;
       }
@@ -97,7 +100,7 @@ router.post('/register', (req, res) => {
 
       // save the new user in the database
       newUser.save((error) => {
-        if (error) { return console.log(error); }
+        if (error) { return err; }
         res.status(201).send('user created');
         return true;
       });

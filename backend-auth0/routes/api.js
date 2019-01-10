@@ -122,4 +122,9 @@ router.get('/:id/watchlist', authenticationRequired, (req, res) => {
   });
 });
 
+// This endpoint is protected and has access to the authenticated user.
+router.get('/me', authenticationRequired, (req, res) => {
+  res.send({ user: req.user });
+});
+
 module.exports = router;

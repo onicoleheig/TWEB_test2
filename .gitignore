@@ -1,7 +1,6 @@
 backend
 backend-auth0 copie
 frontend
-frontend-auth
 # Logs
 logs
 *.log

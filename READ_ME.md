@@ -52,3 +52,12 @@ you can't add the same user two times
 
 
 all tests can be performed on the following url : https://backend-qsqexingpz.now.sh/
+
+
+
+Use the following command to start the test
+
+```
+npm test
+```
+

@@ -12,6 +12,7 @@ const { port } = require('../config');
 
 chai.use(chaiHttp);
 
+// /!\ the API must be running
 describe('my rest api test', () => {
   it('should show welcome message', (done) => {
     chai.request(`http://localhost:${port}`)

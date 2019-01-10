@@ -18,7 +18,7 @@ const { Schema } = mongoose;
 const UserSchema = new Schema({
   username: { type: String, required: true, max: 20 },
   password: { type: String, required: true, max: 100 },
-  toys: [MovieSchema],
+  watchlist: { type: [MovieSchema], required: false },
 });
 const User = mongoose.model('Todo', UserSchema);
 

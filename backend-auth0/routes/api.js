@@ -97,7 +97,7 @@ MovieSchema.plugin(mongoosePaginate);
 const Movie = mongoose.model('Movie', MovieSchema);
 
 // get all movies
-router.get('/movies', authentication, (req, res) => {
+router.get('/movies', authenticationRequired, (req, res) => {
   Movie.find((err, movies) => {
     if (err) return err;
     res.send(movies);
@@ -106,7 +106,7 @@ router.get('/movies', authentication, (req, res) => {
 });
 
 // get all movies with pagination
-router.get('/movies/:page/:limit', authenticationRequired, (req, res) => {
+router.get('/movies/:page/:limit', authentication, (req, res) => {
   const { page, limit } = req.params;
   Movie.paginate({}, { page: parseInt(page, 10), limit: parseInt(limit, 10) }).then(response => {
     res.send(response);

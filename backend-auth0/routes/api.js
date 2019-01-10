@@ -120,6 +120,16 @@ router.get('/:id/watchlist', authenticationRequired, (req, res) => {
   });
 });
 
+// add an element to the watchlist
+router.put('/:id/watchlist/add', authenticationRequired, (req, res) => {
+  User.findOneAndUpdate({ _id: req.params.id }, { $push: { watchlist: req.body } }, { new: true },
+    (err) => {
+      if (err) return err;
+      res.send('added to the watchlist');
+      return true;
+    });
+});
+
 // This endpoint is protected and has access to the authenticated user.
 router.get('/me', authenticationRequired, (req, res) => {
   res.send({ user: req.user });
